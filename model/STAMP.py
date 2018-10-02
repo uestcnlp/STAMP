@@ -15,8 +15,6 @@ from util.FileDumpLoad import dump_file
 class Seq2SeqAttNN(NN):
     """
     The memory network with context attention.
-    该模型是： add
-    \
     """
     # ctx_input.shape=[batch_size, mem_size]
 
@@ -94,10 +92,10 @@ class Seq2SeqAttNN(NN):
             name="inputs"
         )
 
-        self.last_3inputs = tf.placeholder(
+        self.last_inputs = tf.placeholder(
             tf.int32,
             [None],
-            name="last_3inputs"
+            name="last_inputs"
         )
 
 
@@ -132,7 +130,7 @@ class Seq2SeqAttNN(NN):
         sent_bitmap = tf.ones_like(tf.cast(self.inputs, tf.float32))
 
         inputs = tf.nn.embedding_lookup(self.embe_dict, self.inputs,max_norm=1)
-        last3inputs = tf.nn.embedding_lookup(self.embe_dict, self.last_3inputs,max_norm=1)
+        lastinputs= tf.nn.embedding_lookup(self.embe_dict, self.last_inputs,max_norm=1)
 
         org_memory = inputs
 
@@ -151,7 +149,7 @@ class Seq2SeqAttNN(NN):
             stddev=self.stddev,
             norm_type='none'
         )
-        attout, alph= attlayer.forward(org_memory,last3inputs,pool_out,sent_bitmap)
+        attout, alph= attlayer.forward(org_memory,lastinputs,pool_out,sent_bitmap)
         attout = tf.reshape(attout,[-1,self.edim]) + pool_out
         self.alph = tf.reshape(alph,[batch_size,1,-1])
 
@@ -166,9 +164,9 @@ class Seq2SeqAttNN(NN):
         )
         attout = tf.tanh(tf.matmul(attout,self.w1))
         # attout = tf.nn.dropout(attout, self.output_keep_probs)
-        last3inputs = tf.tanh(tf.matmul(last3inputs,self.w2))
-        # last3inputs = tf.nn.dropout(last3inputs, self.output_keep_probs)
-        prod = attout * last3inputs
+        lastinputs= tf.tanh(tf.matmul(lastinputs,self.w2))
+        # lastinputs= tf.nn.dropout(lastinputs, self.output_keep_probs)
+        prod = attout * lastinputs
         sco_mat = tf.matmul(prod,self.embe_dict[1:],transpose_b= True)
         self.softmax_input = sco_mat
         self.loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=sco_mat,labels = self.lab_input)
@@ -212,19 +210,19 @@ class Seq2SeqAttNN(NN):
                         for s in range(len(tmp_in_data[0])):
                             batch_in = []
                             batch_out = []
-                            batch_last3 = []
+                            batch_last = []
                             batch_seq_l = []
                             for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
 
                                _in = tmp_in[s]
                                _out = tmp_out[s]-1
-                               batch_last3.append(_in)
+                               batch_last.append(_in)
                                batch_in.append(tmp_in[:s + 1])
                                batch_out.append(_out)
                                batch_seq_l.append(s + 1)
                             feed_dict = {
                                 self.inputs: batch_in,
-                                self.last_3inputs: batch_last3,
+                                self.last_inputs: batch_last,
                                 self.lab_input: batch_out,
                                 self.sequence_length: batch_seq_l
 
@@ -247,18 +245,18 @@ class Seq2SeqAttNN(NN):
                         for s in range(len(tmp_in_data[0])):
                             batch_in = []
                             batch_out = []
-                            batch_last3 = []
+                            batch_last = []
                             batch_seq_l = []
                             for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
                                 _in = tmp_in[s]
                                 _out = tmp_out[s] - 1
-                                batch_last3.append(_in)
+                                batch_last.append(_in)
                                 batch_in.append(tmp_in[:s + 1])
                                 batch_out.append(_out)
                                 batch_seq_l.append(s + 1)
                             feed_dict = {
                                 self.inputs: batch_in,
-                                self.last_3inputs: batch_last3,
+                                self.last_inputs: batch_last,
                                 self.lab_input: batch_out,
                                 self.sequence_length: batch_seq_l
 
@@ -279,18 +277,18 @@ class Seq2SeqAttNN(NN):
                     for s in range(len(tmp_in_data[0])):
                         batch_in = []
                         batch_out = []
-                        batch_last3 = []
+                        batch_last = []
                         batch_seq_l = []
                         for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
                             _in = tmp_in[s]
                             _out = tmp_out[s] - 1
-                            batch_last3.append(_in)
+                            batch_last.append(_in)
                             batch_in.append(tmp_in[:s + 1])
                             batch_out.append(_out)
                             batch_seq_l.append(s + 1)
                         feed_dict = {
                             self.inputs: batch_in,
-                            self.last_3inputs: batch_last3,
+                            self.last_inputs: batch_last,
                             self.lab_input: batch_out,
                             self.sequence_length: batch_seq_l
 
@@ -358,18 +356,18 @@ class Seq2SeqAttNN(NN):
                     for s in range(len(tmp_in_data[0])):
                         batch_in = []
                         batch_out = []
-                        batch_last3 = []
+                        batch_last = []
                         batch_seq_l = []
                         for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
                             _in = tmp_in[s]
                             _out = tmp_out[s] - 1
-                            batch_last3.append(_in)
+                            batch_last.append(_in)
                             batch_in.append(tmp_in[:s + 1])
                             batch_out.append(_out)
                             batch_seq_l.append(s + 1)
                         feed_dict = {
                             self.inputs: batch_in,
-                            self.last_3inputs: batch_last3,
+                            self.last_inputs: batch_last,
                             self.lab_input: batch_out,
                             self.sequence_length: batch_seq_l
 
@@ -395,18 +393,18 @@ class Seq2SeqAttNN(NN):
                     for s in range(len(tmp_in_data[0])):
                         batch_in = []
                         batch_out = []
-                        batch_last3 = []
+                        batch_last = []
                         batch_seq_l = []
                         for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
                             _in = tmp_in[s]
                             _out = tmp_out[s] - 1
-                            batch_last3.append(_in)
+                            batch_last.append(_in)
                             batch_in.append(tmp_in[:s + 1])
                             batch_out.append(_out)
                             batch_seq_l.append(s + 1)
                         feed_dict = {
                             self.inputs: batch_in,
-                            self.last_3inputs: batch_last3,
+                            self.last_inputs: batch_last,
                             self.lab_input: batch_out,
                             self.sequence_length: batch_seq_l
 
@@ -431,18 +429,18 @@ class Seq2SeqAttNN(NN):
                 for s in range(len(tmp_in_data[0])):
                     batch_in = []
                     batch_out = []
-                    batch_last3 = []
+                    batch_last = []
                     batch_seq_l = []
                     for tmp_in, tmp_out in zip(tmp_in_data, tmp_out_data):
                         _in = tmp_in[s]
                         _out = tmp_out[s] - 1
-                        batch_last3.append(_in)
+                        batch_last.append(_in)
                         batch_in.append(tmp_in[:s + 1])
                         batch_out.append(_out)
                         batch_seq_l.append(s + 1)
                     feed_dict = {
                         self.inputs: batch_in,
-                        self.last_3inputs: batch_last3,
+                        self.last_inputs: batch_last,
                         self.lab_input: batch_out,
                         self.sequence_length: batch_seq_l
 
