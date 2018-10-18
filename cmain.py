@@ -48,21 +48,6 @@ def load_tt_datas(config={}, reload=True):
     if reload:
         print( "reload the datasets.")
         print (config['dataset'])
-        if config['dataset'] == 'rsc15':
-            train_data, test_data, item2idx = load_data(
-                rsc15_train,
-                rsc15_test,
-                class_num=config['class_num']
-            )
-            data = pd.read_csv(rsc15_train, sep='\t', dtype={'ItemId': np.int64})
-            itemids = data["ItemId"].unique()  # 去重，return 唯一的itemid序列
-            n_items = len(itemids)
-            config["n_items"] = n_items
-            emb_dict = load_random(item2idx,edim=config['hidden_size'], init_std=config['emb_stddev'])
-            config['pre_embedding'] = emb_dict
-            path = 'datas/mid_data'
-            dump_file([emb_dict, path+mid_rsc15_emb_dict])
-            print("-----")
 
         if config['dataset'] == 'rsc15_4':
             train_data, test_data, item2idx, n_items = load_data_p(
@@ -108,22 +93,6 @@ def load_tt_datas(config={}, reload=True):
     else:
         print ("not reload the datasets.")
         print(config['dataset'])
-        if config['dataset'] == 'rsc15':
-            train_data, test_data, item2idx = load_data(
-                rsc15_train,
-                rsc15_test,
-                class_num=config['class_num']
-            )
-            data = pd.read_csv(rsc15_train, sep='\t', dtype={'ItemId': np.int64})
-            itemids = data["ItemId"].unique()  # 去重，return 唯一的itemid序列
-            n_items = len(itemids)
-            config["n_items"] = n_items
-
-            path = 'datas/mid_data'
-            emb_dict = load_file(path + mid_rsc15_emb_dict)
-            config['pre_embedding'] = emb_dict[0]
-
-            print("-----")
 
         if config['dataset'] == 'rsc15_4':
             train_data, test_data, item2idx, n_items = load_data_p(
@@ -171,26 +140,6 @@ def load_tt_datas(config={}, reload=True):
             # emb_dict = load_file(path + "cikm16_emb.data")
             config['pre_embedding'] = emb_dict[0]
             print("-----")
-        # if config['dataset'] == 'rsc15':
-        #     train_data = pd.read_csv(rsc15_train, sep='\t', dtype={'ItemId': np.int64})
-        #     test_data = pd.read_csv(rsc15_test, sep='\t', dtype={'ItemId': np.int64})
-
-
-            # path = 'datas/mid_data/'
-            # sample_list = []
-            # for i in range(10):
-            #     tmp = load_file(
-            #         path +str(i)+ "_"+mid_rsc15_train_data
-            #     )
-            #     sample_list+= tmp[0]
-            # sample_pack = Samplepack()
-            # sample_pack.samples = sample_list
-            # sample_pack.init_id2sample()
-            # train_data = sample_pack
-            # ret= load_file(
-            #         path +mid_rsc15_test_data
-            #     )
-            # test_data = ret[0]
 
     return train_data, test_data
 
