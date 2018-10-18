@@ -4,20 +4,12 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 from data_prepare.entity.samplepack import Samplepack
-# from data_prepare.semeval14data_read import load_data
-# from data_prepare.semeval14data_read_dong import load_data as load_data_dong
-# from data_prepare.load_dict import load_glove
-# from data_prepare.load_dict import load_ssweu
 from data_prepare.load_dict import load_random
-from data_prepare.rsyc15data_read import load_data
 from data_prepare.cikm16data_read import load_data2
-# from data_prepare.cikm16data_read_org import load_data2
 from data_prepare.rsyc15data_read_p import load_data_p
-# from data_prepare.rsyc15data_read_org import load_data
 from util.Config import read_conf
 from util.FileDumpLoad import dump_file, load_file
 from util.Randomer import Randomer
-# from data_prepare.load_dict import load_one_hot
 # the data path.
 
 root_path = '/home/zyf/code'
