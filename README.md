@@ -1,6 +1,6 @@
 # STAMP
 
-The code of KDD'18 accepted paper 《STAMP: Short-Term Atention/Memory Priority Model for Session-based Recommendation》
+The code of KDD'18 accepted paper 《STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation》
 
 You can run it by using the run.sh
 
