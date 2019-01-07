@@ -7,7 +7,7 @@ import datetime as dt
 PATH_TO_ORIGINAL_DATA = ''
 PATH_TO_PROCESSED_DATA = ''
 
-data = pd.read_csv(PATH_TO_ORIGINAL_DATA + 'diginetica.csv', sep=';', header=0, usecols=[0,2,3,4], dtype={0:np.int32, 1:np.int64, 2:np.int32,3:str})
+data = pd.read_csv(PATH_TO_ORIGINAL_DATA + 'train-item-views.csv', sep=';', header=0, usecols=[0,2,3,4], dtype={0:np.int32, 1:np.int64, 2:np.int32,3:str})
 # data.columns = ['sessionId', 'TimeStr', 'itemId']
 data['Time'] = data['eventdate'].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d').timestamp()) #This is not UTC. It does not really matter.
 del(data['eventdate'])
