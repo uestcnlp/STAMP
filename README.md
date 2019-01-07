@@ -10,8 +10,8 @@ YOOCHOOSE: http://2015.recsyschallenge.com/challenge.html
 
 DIGINETICA: http://cikm2016.cs.iupui.edu/cikm-cup
 
-
 ---
+
 ## Usage
 
 Beacuse for each dataset we have some different parameters, there are two model files `STAMP_rsc.py` and `STAMP_cikm.py`.
@@ -21,6 +21,7 @@ So you run the file`cmain.py` to train the model.
 For example: `python3 cmain.py -m stamp_rsc -d rsc15_64` and `python3 cmain.py -m stamp_cikm -d cikm16`
 
 Or you can run it by using the `run.sh` directly. 
+
 ---
 ## Requirements
 
@@ -28,6 +29,7 @@ Or you can run it by using the `run.sh` directly.
 . Tensorflow 1.4
 
 ---
+
 ## Citation
 Please cite our papaer:
 ```
