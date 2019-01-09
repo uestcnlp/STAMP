@@ -4,7 +4,7 @@
 
 This is the code for the KDD 2018 paper: [STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation](https://dl.acm.org/citation.cfm?id=3219950). We have implemented our methods in **Tensorflow**.
 
-These are two datasets we used in our paper. After download them, you can put them in the folder `datas\`, then process them by `process_rsc.py` and  `process_cikm` respectively.
+These are two datasets we used in our paper. After download them, you can put them in the folder `datas\`, then process them by `process_rsc.py` and  `process_cikm.py` respectively.
 
 YOOCHOOSE: http://2015.recsyschallenge.com/challenge.html
 
@@ -18,7 +18,7 @@ Beacuse for each dataset we have some different parameters, there are two model 
 
 So you run the file`cmain.py` to train the model.
 
-For example: `python3 cmain.py -m stamp_rsc -d rsc15_64` and `python3 cmain.py -m stamp_cikm -d cikm16`
+For example: `python3 cmain.py -m stamp_rsc -d rsc15_64 -n` and `python3 cmain.py -m stamp_cikm -d cikm16 -n`
 
 Or you can run it by using the `run.sh` directly. 
 
